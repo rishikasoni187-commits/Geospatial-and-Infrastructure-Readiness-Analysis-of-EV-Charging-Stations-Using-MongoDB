@@ -1,0 +1,171 @@
+[
+    {
+        '$match': {
+            'AddressInfo.StateOrProvince': {
+                '$ne': None
+            }
+        }
+    }
+
+distinct(AdressInfo.StateorProvince)
+
+  null,             ' Tamil Nadu',     'Andhra Pradesh',
+  'Assam',          'Bangalore Urban', 'Bihar',
+  'Delhi',          'Delhi ',          'GJ',
+  'Goa',            'Gujarat',         'Gujarat ',
+  'Haryana',        'Haryana ',        'Himachal Pradesh',
+  'India',          'Jharkhand',       'KA',
+  'KARNATAKA',      'Karnatak',        'Karnataka',
+  'Karnataka ',     'Keraka',          'Keral',
+  'Kerala',         'Kerala ',         'Lerala',
+  'MH',             'MP',              'Madhya Pradesh',
+  'Maharashtra',    'Maharashtra ',    'Mahrashtra',
+  'New Dehi',       'Puducherry',      'Punjab ',
+  'RJ',             'Rajasthan',       'Rajasthan ',
+  'TAMILNADU',      'Tamil Nadu',      'Tamil Nadu ',
+  'Tamil Nasdu',    'Tamil nadu',      'TamilNadu',
+  'Tamilnadu',      'Telangana',       'UTTAR PRADESH',
+  'UTTAR PRADESH ', 'Uttar Pradesh',   'Uttar Pradesh ',
+  'Uttarakhand',    'Uttarakhnad',     'Villupuram',
+  'West Bengal',    'chennai',         'karnataka',
+  'uttar pradesh ', 'west bengal'
+]
+
+db.EV_mapping.distinct("AddressInfo.StateOrProvince").lenth
+db.EV_mapping.distinct("AddressInfo.StateOrProvince").length
+59
+db.EV_mapping.updateMany(
+  {},
+  [
+    {
+      $set: {
+        normalizedState: {
+          $toUpper: {
+            $trim: {
+              input: "$AddressInfo.StateOrProvince"
+            }
+          }
+        }
+      }
+    }
+  ]
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1324,
+  modifiedCount: 1324,
+  upsertedCount: 0
+}
+db.EV_mapping.aggregate([
+  { $match: { normalizedState: { $ne: null } } },
+  { $group: { _id: "$normalizedState" } },
+  { $count: "TotalStates" }
+])
+{
+  TotalStates: 40
+}
+db.EV_mapping.aggregate([
+  { $match: { normalizedState: { $ne: null } } },
+  { $group: { _id: "$OperatorInfo.Title", totalStations: { $sum: 1 } } },
+  { $sort: { totalStations: -1 } }
+])
+db.EV_mapping.aggregate([
+  { $match: { normalizedState: { $ne: null } } },
+  { $group: { _id: "$OperatorInfo.Title", totalStations: { $sum: 1 } } },
+  { $sort: { totalStations: -1 } }
+])
+{
+  _id: 'ChargeMod (IN)',
+  totalStations: 268
+}
+db.EV_mapping.aggregate([
+  { $match: { normalizedState: { $ne: null } } },
+  { $group: { _id: "$normalizedState", totalStations: { $sum: 1 } } },
+  { $sort: { totalStations: 1 } }
+])
+db.EV_mapping.updateMany(
+  {},
+  [
+    {
+      $set: {
+        finalState: {
+          $switch: {
+            branches: [
+              { case: { $eq: ["$normalizedState", "MH"] }, then: "MAHARASHTRA" },
+              { case: { $eq: ["$normalizedState", "RJ"] }, then: "RAJASTHAN" },
+              { case: { $eq: ["$normalizedState", "KA"] }, then: "KARNATAKA" },
+              { case: { $eq: ["$normalizedState", "GJ"] }, then: "GUJARAT" },
+              { case: { $eq: ["$normalizedState", "MP"] }, then: "MADHYA PRADESH" },
+              { case: { $eq: ["$normalizedState", "TAMIL NASDU"] }, then: "TAMIL NADU" },
+              { case: { $eq: ["$normalizedState", "KERAKA"] }, then: "KERALA" },
+              { case: { $eq: ["$normalizedState", "CHENNAI"] }, then: "TAMIL NADU" }
+            ],
+            default: "$normalizedState"
+          }
+        }
+      }
+    }
+  ]
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1324,
+  modifiedCount: 1324,
+  upsertedCount: 0
+}
+db.EV_mapping.aggregate([
+  { $match: { finalState: { $ne: null } } },
+  { $group: { _id: "$finalState" } },
+  { $count: "TotalFinalStates" }
+])
+{
+  TotalFinalStates: 32
+}
+db.EV_mapping.aggregate([
+  { $match: { finalState: { $ne: null } } },
+  { $group: { _id: "$finalState", totalStations: { $sum: 1 } } },
+  { $sort: { totalStations: -1 } }
+])
+{
+  _id: 'KERALA',
+  totalStations: 512
+}
+
+db.EV_mapping.aggregate([
+  { $group: { _id: "$OperatorInfo.Title", totalStations: { $sum: 1 } } },
+  { $sort: { totalStations: -1 } }
+])
+
+db.EV_mapping.aggregate([
+  { $group: { _id: "$OperatorInfo.Title" } },
+  { $count: "TotalOperators" }
+])
+{
+  TotalOperators: 31
+}
+total operators 31
+SyntaxError: Missing semicolon. (1:5)
+
+> 1 | total operators 31
+    |      ^
+db.EV_mapping.countDocuments({
+  "OperatorInfo.Title": null
+})
+20
+const user = await User.findById(userId);
+
+// Convert the document to a string (JSON format)
+const userString = JSON.stringify(user);
+console.log(userString);
+SyntaxError: 'await' is only allowed within async functions and at the top levels of modules. (1:13)
+
+> 1 | const user = await User.findById(userId);
+    |              ^
+  2 |
+  3 | // Convert the document to a string (JSON format)
+  4 | const userString = JSON.stringify(user);
+Atlas atlas-6xpoe2-shard-0 [primary] ev_mapping
+
+
