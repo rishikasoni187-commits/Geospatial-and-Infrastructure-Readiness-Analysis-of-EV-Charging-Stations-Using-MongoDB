@@ -43,7 +43,8 @@ Table of Contents
 11.	 Conclusion
 
  
-1.	Executive Summary
+**Executive Summary**
+
 India's shift to electric vehicles relies heavily on how much charging infrastructure there is, where it's located, and the type of power it uses. This study uses MongoDB Atlas to examine 1,324 electric vehicle charging stations obtained from the OpenChargeMap API.
 The project evaluates:
 •	Geographic distribution of stations
@@ -56,7 +57,7 @@ The results show that most of the activity is happening in the southern part of 
 
 This study shows how document-based NoSQL systems can turn semi-structured infrastructure data into useful strategic infrastructure insights.
 
-2. Problem Statement
+**Problem Statement**
 
 India's electric vehicle adoption is speeding up, but the way charging and supporting infrastructure is being set up is not the same everywhere and is still changing over time.
 
@@ -69,9 +70,7 @@ The main questions that were looked at in this study are:
 
 The goal is to check if India's electric vehicle charging network is in the early stage, moving towards more growth, or already well-established.
 
-
-
-3. Dataset Overview
+**Dataset Overview**
 
 The dataset was brought into MongoDB Atlas using the OpenChargeMap API.
 
@@ -89,7 +88,7 @@ Each document contains nested structures:
 
 MongoDB is a good choice for analytical work because it can manage arrays and objects that are inside other objects, without needing to use joins like in traditional databases.
 
-4. Data Engineering & Normalization
+**Data Engineering & Normalization**
 
 Initial data exploration showed 59 different state entries because of:
 •	Case mismatches
@@ -99,53 +98,36 @@ Initial data exploration showed 59 different state entries because of:
 •	City names stored as states
   
 
-            
-
-
-
 To make sure the aggregation is accurate, normalization was done using:
 •	$trim
 •	$toUpper
 •	Manual abbreviation mapping
 
- 
-
-
-
-
-Distinct state entries were simplified into 32 clear categories.
-
-
-
+ Distinct state entries were simplified into 32 clear categories.
 
 This highlights a key managerial insight:
 
 Infrastructure analytics depends on the quality of the data it uses. If the data is not accurate or complete, the analytics results won't be trustworthy.
 
-5. Geographic Distribution Analysis
+**Geographic Distribution Analysis**
 
-Problem Statement 1
+*  Problem Statement 1
 To look at how electric vehicle charging stations are spread out across different states in India and find out where they are mostly concentrated.
 
  
-
-
 Key Findings
 •	Kerala - 512
 •	Karnataka - 353
 •	Tamil Nadu - 182
 
-Inference
+**Inference**
 Southern India dominates charging infrastructure deployment. The top three states have a much larger number of stations compared to other states, showing an uneven spread of infrastructure and suggesting that these areas get more attention from policies or private companies.
 
 
-6. Operator Market Structure
+**Operator Market Structure**
 
-Problem Statement 2
+*  Problem Statement 2
 To check how much control operators have and understand how the competition works in India's electric vehicle charging network.
- 
-
-Figure 5: Operator-wise Distribution
 
 
 Key Findings
@@ -153,29 +135,26 @@ Key Findings
 •	Zeon Charging - 160
 •	Tata Power - 156
 
-Inference
+**Inference**
 
 Although there are 31 active operators, the infrastructure is somewhat concentrated among the leading providers. This shows that the market is starting to consolidate, and companies that moved in first are gaining an edge.
 
-7. Spatial Clustering Analysis
+**Spatial Clustering Analysis**
 
-Problem Statement 3
+*  Problem Statement 3
 To figure out if electric vehicle charging stations are mostly located near cities and towns.
 
 
 
-Inference
+**Inference**
 A lot of people are gathering together in Bangalore, Kochi, and Chennai. Sparse deployment of resources in central and northeastern India shows a preference for urban areas and indicates that the country is not equally prepared across all regions.
  
+**Connector Type Distribution**
 
-Figure 6: Geographic Clustering of Charging Stations
-
-8. Connector Type Distribution
-
-Problem Statement 4
+*  Problem Statement 4
 To look at how electric vehicle charging connectors are spread out based on whether they are AC or DC and to check the different parts that make up India's charging network.
 
-Aggregation Used
+**Aggregation Used**
 [
   { $unwind: "$Connections" },
   {
@@ -188,9 +167,9 @@ Aggregation Used
   { $sort: { totalConnectors: -1 } }
 ]
  
-Figure 7: AC vs DC Connector Distribution
 
-Inference 4
+
+**Inference 4**
 DC connectors are used much more than AC connectors, showing a big change in how charging infrastructure is being built.
 
 This suggests:
@@ -200,12 +179,12 @@ This suggests:
 •	AC connectors are still around but are mainly used for urban and residential purposes.
 
 
-9. Power Maturity Matrix
+**Power Maturity Matrix**
 
-Problem Statement 5
+*  Problem Statement 5
 To check how mature the infrastructure is, look at the connectors used in different power categories and types of current.
 
-Aggregation Used
+**Aggregation Used**
 [
   { $unwind: "$Connections" },
   {
@@ -240,10 +219,8 @@ Aggregation Used
 ]
  
 
-Figure 8: Infrastructure Power Maturity Matrix
 
-
-Inference 5
+**Inference 5**
 DC connectors are mostly used in the Fast charging range, which is between 50 and 150 kilowatts.
 AC connectors are most commonly used in the Low and Medium power categories.
 Ultra-fast (>150 kW) infrastructure remains limited.
@@ -254,7 +231,7 @@ This indicates:
 •	Ultra-fast charging remains in early adoption stage.
 The ecosystem shows a change in structure instead of being completely mature.
 
-10. Strategic Insights
+**Strategic Insights**
 
 •	Southern India leads infrastructure readiness.
 •	Market shows moderate operator consolidation.
@@ -263,7 +240,7 @@ The ecosystem shows a change in structure instead of being completely mature.
 •	Ultra-fast infrastructure is still emerging.
 •	Data normalization is critical in infrastructure analytics.
 
-11. Conclusion
+**Conclusion**
 
 This study shows how well MongoDB can work with semi-structured data from infrastructure systems.
 
@@ -278,8 +255,10 @@ India's electric vehicle charging network is moving more towards fast charging, 
 
 
 MongoDB Atlas proved effective for:
-•	Nested document handling
-•	Aggregation-based analytics
-•	Connector-level analysis
-•	Geospatial visualization
-•	Infrastructure maturity assessment
+
+
+*  	Nested document handling
+*  	Aggregation-based analytics
+*  	Connector-level analysis
+*  	Geospatial visualization
+* 	Infrastructure maturity assessment
